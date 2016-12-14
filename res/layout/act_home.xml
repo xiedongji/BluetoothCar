@@ -8,44 +8,49 @@
 
     <RelativeLayout
         android:id="@+id/leftPanel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical" >
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical" >
+        <Button
+            android:id="@+id/btnCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/btn_center" />
 
-            <Button
-                android:id="@+id/btnUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="U" />
+        <Button
+            android:id="@+id/btnUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btnCenter"
+            android:layout_alignRight="@id/btnCenter"
+            android:text="@string/btn_up" />
 
-            <Button
-                android:id="@+id/btnLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btnUp"
-                android:layout_marginRight="30dip"
-                android:text="L" />
+        <Button
+            android:id="@+id/btnDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/btnCenter"
+            android:layout_below="@id/btnCenter"
+            android:text="@string/btn_down" />
 
-            <Button
-                android:id="@+id/btnRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btnUp"
-                android:layout_toRightOf="@id/btnLeft"
-                android:text="R" />
+        <Button
+            android:id="@+id/btnLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/btnCenter"
+            android:layout_toLeftOf="@id/btnCenter"
+            android:text="@string/btn_left" />
 
-            <Button
-                android:id="@+id/btnDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btnLeft"
-                android:text="D" />
-        </RelativeLayout>
+        <Button
+            android:id="@+id/btnRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/btnCenter"
+            android:layout_toRightOf="@id/btnCenter"
+            android:text="@string/btn_right" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -58,8 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:gravity="bottom"
             android:layout_marginBottom="36dip"
+            android:gravity="bottom"
             android:orientation="horizontal" >
 
             <Button
@@ -67,63 +72,66 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="RESET" />
+                android:text="@string/btn_reset" />
 
             <Button
                 android:id="@+id/btnSet"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="SET" />
+                android:text="@string/btn_set" />
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rightPanel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_weight="1" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/llxy"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/btnX"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="X" />
+                android:layout_weight="1"
+                android:text="@string/btn_x" />
 
             <Button
                 android:id="@+id/btnY"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Y" />
+                android:layout_weight="1"
+                android:text="@string/btn_y" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llab"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-       		android:layout_below="@id/llxy"
-          
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/btnA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A" />
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/btn_a" />
 
             <Button
                 android:id="@+id/btnB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="B" />
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/btn_b" />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
