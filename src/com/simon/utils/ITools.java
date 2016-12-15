@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class ITools {
 	
-	//MD5¼ÓÃÜ
+	//MD5å·¥å…·åŠ å¯†
 	public static String md5(String string) {
 	    byte[] hash;
 	    try {

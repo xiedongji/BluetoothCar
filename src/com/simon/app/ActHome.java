@@ -13,11 +13,8 @@ import android.widget.Button;
 
 public class ActHome extends ActBase implements OnClickListener {
 	
-	 //左边方向按钮
 	private Button btnUp, btnDown, btnLeft, btnRight;
-	//中间设置按钮
 	private Button btnRest, btnSet;
-	//右边加强按钮
 	private Button btnX, btnY, btnA, btnB;
 
     @Override
@@ -65,7 +62,7 @@ public class ActHome extends ActBase implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btnUp:
-			new IPop().show(this, "设置", "这是内容...", "确定", "取消", new PosBtnCallBack() {
+			new IPop().show(this, "鏍囬", "鍐呭", "纭畾", "鍙栨秷", new PosBtnCallBack() {
 				@Override
 				public void onPosDo(DialogInterface dialogInterface) {
 					IToast.hint(ActHome.this, R.string.btn_up);

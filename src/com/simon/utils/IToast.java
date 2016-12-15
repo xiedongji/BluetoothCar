@@ -3,7 +3,7 @@ package com.simon.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-//系统弹出框组件
+//鎻愮ず淇℃伅
 public class IToast {
 
 	private static Toast mToast;

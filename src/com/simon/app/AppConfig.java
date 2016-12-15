@@ -2,7 +2,7 @@ package com.simon.app;
 
 public class AppConfig {
 
-	//===========调试开发部分===================
-	public static final boolean isShowLog = true;//是否打印Log
+	//===========绯荤粺閰嶇疆鏂囦欢===================
+	public static final boolean isShowLog = true;//鏄惁鏄剧ず鏃ュ織淇℃伅
 
 }

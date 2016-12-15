@@ -20,13 +20,13 @@ public class IPop {
 		}).setNegativeButton(strBtnNeg, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();//关闭窗口
+				dialog.dismiss();//锟截闭达拷锟斤拷
 			}
 		});
 		mBuilder.show();
 	}
 	
-	//确定事件 会掉
+	//纭畾鎸夐挳鍥炶皟鍑芥暟
 	public interface PosBtnCallBack{
 		public void onPosDo(DialogInterface dialogInterface);
 	}
