@@ -16,7 +16,7 @@
     <string name="btn_down">D</string>
     <string name="btn_left">L</string>
     <string name="btn_right">R</string>
-    <string name="btn_center">C</string>
+    <string name="btn_stop">S</string>
     
 
 </resources>

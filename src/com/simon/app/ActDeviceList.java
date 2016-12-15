@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ActDeviceList extends Activity {
 	// 调试用
-	private static final String TAG = "DeviceListActivity";
+	private static final String TAG = "ActDeviceList";
 	private static final boolean D = true;
 
 	// 返回时数据标签
@@ -53,10 +53,8 @@ public class ActDeviceList extends Activity {
 		});
 
 		// 初使化设备存储数组
-		mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this,
-				R.layout.wg_device_item);
-		mNewDevicesArrayAdapter = new ArrayAdapter<String>(this,
-				R.layout.wg_device_item);
+		mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this,R.layout.wg_device_item);
+		mNewDevicesArrayAdapter = new ArrayAdapter<String>(this,R.layout.wg_device_item);
 
 		// 设置已配队设备列表
 		ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
@@ -112,9 +110,7 @@ public class ActDeviceList extends Activity {
 		finish();
 	}
 
-	/**
-	 * 开始服务和设备查找
-	 */
+    // 开始服务和设备查找
 	private void doDiscovery() {
 		if (D)
 			Log.d(TAG, "doDiscovery()");
@@ -163,21 +159,18 @@ public class ActDeviceList extends Activity {
 			// 查找到设备action
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				// 得到蓝牙设备
-				BluetoothDevice device = intent
-						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				// 如果是已配对的则略过，已得到显示，其余的在添加到列表中进行显示
 				if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-					mNewDevicesArrayAdapter.add(device.getName() + "\n"
-							+ device.getAddress());
+					mNewDevicesArrayAdapter.add(device.getName() + "\n"+ device.getAddress());
 				} else { // 添加到已配对设备列表
-					mPairedDevicesArrayAdapter.add(device.getName() + "\n"
-							+ device.getAddress());
+					mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 				}
 				// 搜索完成action
-			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
-					.equals(action)) {
+			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
 				setProgressBarIndeterminateVisibility(false);
 				setTitle("选择要连接的设备");
+				
 				if (mNewDevicesArrayAdapter.getCount() == 0) {
 					String noDevices = "没有找到新设备";
 					mNewDevicesArrayAdapter.add(noDevices);

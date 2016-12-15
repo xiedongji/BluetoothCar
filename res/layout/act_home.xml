@@ -14,43 +14,42 @@
         android:gravity="center_vertical" >
 
         <Button
-            android:id="@+id/btnCenter"
+            android:id="@+id/btnStop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="invisible"
-            android:text="@string/btn_center" />
+            android:text="@string/btn_stop" />
 
         <Button
             android:id="@+id/btnUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/btnCenter"
-            android:layout_alignRight="@id/btnCenter"
+            android:layout_above="@id/btnStop"
+            android:layout_alignRight="@id/btnStop"
             android:text="@string/btn_up" />
 
         <Button
             android:id="@+id/btnDown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/btnCenter"
-            android:layout_below="@id/btnCenter"
+            android:layout_alignRight="@id/btnStop"
+            android:layout_below="@id/btnStop"
             android:text="@string/btn_down" />
 
         <Button
             android:id="@+id/btnLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/btnCenter"
-            android:layout_toLeftOf="@id/btnCenter"
+            android:layout_alignBottom="@id/btnStop"
+            android:layout_toLeftOf="@id/btnStop"
             android:text="@string/btn_left" />
 
         <Button
             android:id="@+id/btnRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/btnCenter"
-            android:layout_toRightOf="@id/btnCenter"
+            android:layout_alignBottom="@id/btnStop"
+            android:layout_toRightOf="@id/btnStop"
             android:text="@string/btn_right" />
     </RelativeLayout>
 
@@ -80,7 +79,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="onConnectButtonClicked"
                 android:text="@string/btn_set" />
         </LinearLayout>
     </RelativeLayout>
@@ -133,6 +131,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/btn_b" />
+            
         </LinearLayout>
     </LinearLayout>
 

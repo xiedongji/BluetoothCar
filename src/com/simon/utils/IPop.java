@@ -1,9 +1,22 @@
 package com.simon.utils;
 
+import com.simon.app.ActHome;
+import com.simon.app.R;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+
+/*===========================================
+ * 使用例子:
+ * new IPop().show(this, "标题", "内容", "确定", "取消", new PosBtnCallBack() {
+				@Override
+				public void onPosDo(DialogInterface dialogInterface) {
+					IToast.hint(ActHome.this, R.string.btn_up);
+				}
+			});
+ *==========================================*/
 
 public class IPop {
 		

@@ -25,7 +25,7 @@ public class ActHome extends ActBase implements OnClickListener {
 
 	private static final String TAG = "ActHome";
 
-	private Button btnUp, btnDown, btnLeft, btnRight;
+	private Button btnUp, btnDown, btnLeft, btnRight, btnStop;
 	private Button btnRest, btnSet;
 	private Button btnX, btnY, btnA, btnB;
 
@@ -42,7 +42,6 @@ public class ActHome extends ActBase implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.initStart();
-
 	}
 
 	// 默认开始
@@ -63,85 +62,92 @@ public class ActHome extends ActBase implements OnClickListener {
 			}
 		}.start();
 	}
-	
-	//连接按键响应函数
-    public void onConnectButtonClicked(View v){
-    	if(_bluetooth.isEnabled()==false){  //如果蓝牙服务不可用则提示
-    		IToast.hint(this, "打开蓝牙中..." );
-    		return;
-    	}
 
+	// 连接 蓝牙按钮 包含 搜索蓝牙
+	private void connectBluetooth() {
+		if (_bluetooth.isEnabled() == false) { // 如果蓝牙服务不可用则提示
+			IToast.hint(this, "打开蓝牙中...");
+			return;
+		}
 
-        //如未连接设备则打开DeviceListActivity进行设备搜索
-    	Button btn = (Button) findViewById(R.id.btnSet);
-    	if(_socket==null){
-    		Intent serverIntent = new Intent(this, ActDeviceList.class); //跳转程序设置
-    		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);  //设置返回宏定义
-    	}
-    	else{
-    		 //关闭连接socket
-    	    try{
+		// 如果是未连接设备, 则打开DeviceListActivity进行设备搜索
+		if (_socket == null) {
+			Intent searchDeviceListActIntent = new Intent(this,ActDeviceList.class); // 跳转到搜索蓝牙窗口
+			startActivityForResult(searchDeviceListActIntent,REQUEST_CONNECT_DEVICE); // 设置返回宏定义
+			
+		//如果是连接状态,APP界面的 set按钮 提示文字为 断开 .此时点击是断开连接功能了哦
+		} else {
+			// 关闭连接socket
+			try {
+				is.close();
+				_socket.close();
+				_socket = null;
+				btnSet.setText("SET");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return;
+	}
 
-    	    	is.close();
-    	    	_socket.close();
-    	    	_socket = null;
-    	    	btn.setText("连接");
-    	    }catch(IOException e){}
-    	}
-    	return;
-    }
-
-	// 接收活动结果，响应startActivityForResult() 选择蓝牙设备
+	// 接收来自选择蓝牙设备界面的结果，对应自startActivityForResult() 跳转的界面
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		case REQUEST_CONNECT_DEVICE: // 连接结果，由DeviceListActivity设置返回
-			// 响应返回结果
-			if (resultCode == Activity.RESULT_OK) { // 连接成功，由DeviceListActivity设置返回
-				// MAC地址，由DeviceListActivity设置返回
-				String address = data.getExtras().getString(
-						ActDeviceList.EXTRA_DEVICE_ADDRESS);
-				// 得到蓝牙设备句柄
-				_device = _bluetooth.getRemoteDevice(address);
-
-				// 用服务号得到socket
-				try {
-					_socket = _device.createRfcommSocketToServiceRecord(UUID
-							.fromString(MY_UUID));
-				} catch (IOException e) {
-					IToast.hint(this, "连接失败！");
-				}
-
-				// 连接socket
-				Button btn = (Button) findViewById(R.id.btnSet);
-				try {
-					_socket.connect();
-					IToast.hint(this, "连接" + _device.getName() + "成功！");
-					btn.setText("断开");
-				} catch (IOException e) {
+			case REQUEST_CONNECT_DEVICE: // 连接结果，由DeviceListActivity设置返回
+				// 响应返回结果
+				if (resultCode == Activity.RESULT_OK) { // 连接成功，由DeviceListActivity设置返回
+					// MAC地址，由DeviceListActivity设置返回
+					String address = data.getExtras().getString(ActDeviceList.EXTRA_DEVICE_ADDRESS);
+					// 得到蓝牙设备句柄
+					_device = _bluetooth.getRemoteDevice(address);
+	
+					// 用服务号得到socket
 					try {
-						IToast.hint(this, "连接失败！");
-						_socket.close();
-						_socket = null;
-					} catch (IOException ee) {
+						_socket = _device.createRfcommSocketToServiceRecord(UUID.fromString(MY_UUID));
+					} catch (IOException e) {
 						IToast.hint(this, "连接失败！");
 					}
-
-					return;
+	
+					// 连接socket
+					try {
+						_socket.connect();
+						IToast.hint(this, "连接" + _device.getName() + "成功！");
+						btnSet.setText("断开");
+						
+					} catch (IOException e) {
+						//如果连接失败，全部清空相关句柄
+						try {
+							IToast.hint(this, "连接失败！");
+							_socket.close();
+							_socket = null;
+						} catch (IOException ee) {
+							IToast.hint(this, "连接失败！");
+						}
+						return;
+					}
+	
+					// 打开socket输入流
+					try {
+						is = _socket.getInputStream(); // 得到蓝牙数据输入流
+					} catch (IOException e) {
+						IToast.hint(this, "接收数据失败！");
+						return;
+					}
+					
+					// 开启一个接收线程，实时读取 来自 蓝牙硬件发送过来的数据 （暂时不研发）
+//					if(bThread==false){
+//            			ReadThread.start();
+//            			bThread=true;
+//            		}else{
+//            			bRun = true;
+//            		}
+	
 				}
-
-				// 打开接收线程
-				try {
-					is = _socket.getInputStream(); // 得到蓝牙数据输入流
-				} catch (IOException e) {
-					IToast.hint(this, "接收数据失败！");
-					return;
-				}
-
-			}
-			break;
-		default:
-			break;
+				break;
+				
+			default:
+				break;
 		}
 	}
 
@@ -159,32 +165,15 @@ public class ActHome extends ActBase implements OnClickListener {
 		// _bluetooth.disable();
 	}
 
-	@Override
-	protected void initView() {
-		setContentView(R.layout.act_home);
-
-		btnUp = (Button) findViewById(R.id.btnUp);
-		btnDown = (Button) findViewById(R.id.btnDown);
-		btnLeft = (Button) findViewById(R.id.btnLeft);
-		btnRight = (Button) findViewById(R.id.btnRight);
-
-		btnRest = (Button) findViewById(R.id.btnReset);
-		btnSet = (Button) findViewById(R.id.btnSet);
-
-		btnX = (Button) findViewById(R.id.btnX);
-		btnY = (Button) findViewById(R.id.btnY);
-		btnA = (Button) findViewById(R.id.btnA);
-		btnB = (Button) findViewById(R.id.btnB);
-
-	}
-
 	// 发送信息到蓝牙设备
-	public void send(String com) {
+	private void send(String commandStr) {
 		int i = 0;
 		int n = 0;
+		// 获取蓝牙连接输出流
 		try {
-			OutputStream os = _socket.getOutputStream(); // 蓝牙连接输出流
-			byte[] bos = com.getBytes();
+			OutputStream os = _socket.getOutputStream(); 
+			byte[] bos = commandStr.getBytes();
+			//转成字符数组
 			for (i = 0; i < bos.length; i++) {
 				if (bos[i] == 0x0a)
 					n++;
@@ -201,11 +190,32 @@ public class ActHome extends ActBase implements OnClickListener {
 				}
 				n++;
 			}
-
 			os.write(bos_new);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+
+	@Override
+	protected void initView() {
+		setContentView(R.layout.act_home);
+
+		btnUp = (Button) findViewById(R.id.btnUp);
+		btnDown = (Button) findViewById(R.id.btnDown);
+		btnLeft = (Button) findViewById(R.id.btnLeft);
+		btnRight = (Button) findViewById(R.id.btnRight);
+		btnStop = (Button) findViewById(R.id.btnStop);
+
+		btnRest = (Button) findViewById(R.id.btnReset);
+		btnSet = (Button) findViewById(R.id.btnSet);
+
+		btnX = (Button) findViewById(R.id.btnX);
+		btnY = (Button) findViewById(R.id.btnY);
+		btnA = (Button) findViewById(R.id.btnA);
+		btnB = (Button) findViewById(R.id.btnB);
+
 	}
 
 	@Override
@@ -214,6 +224,7 @@ public class ActHome extends ActBase implements OnClickListener {
 		btnDown.setOnClickListener(this);
 		btnLeft.setOnClickListener(this);
 		btnRight.setOnClickListener(this);
+		btnStop.setOnClickListener(this);
 
 		btnRest.setOnClickListener(this);
 		btnSet.setOnClickListener(this);
@@ -228,31 +239,35 @@ public class ActHome extends ActBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		// 左边部分按钮
 		case R.id.btnUp:
-			new IPop().show(this, "标题", "内容", "确定", "取消", new PosBtnCallBack() {
-				@Override
-				public void onPosDo(DialogInterface dialogInterface) {
-					IToast.hint(ActHome.this, R.string.btn_up);
-				}
-			});
+			send("f");
+			IToast.hint(this, R.string.btn_up);
 			break;
 		case R.id.btnDown:
+			send("b");
 			IToast.hint(this, R.string.btn_down);
 			break;
 		case R.id.btnLeft:
+			send("l");
 			IToast.hint(this, R.string.btn_left);
 			break;
 		case R.id.btnRight:
+			send("r");
 			IToast.hint(this, R.string.btn_right);
 			break;
-
+		case R.id.btnStop:
+			send("s");
+			IToast.hint(this, R.string.btn_stop);
+			break;
+		// 中间部分按钮
 		case R.id.btnReset:
 			IToast.hint(this, R.string.btn_reset);
 			break;
 		case R.id.btnSet:
-			IToast.hint(this, R.string.btn_set);
+			this.connectBluetooth();
 			break;
-
+		// 右边部分按钮
 		case R.id.btnX:
 			IToast.hint(this, R.string.btn_x);
 			break;
