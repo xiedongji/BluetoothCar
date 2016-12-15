@@ -1,7 +1,10 @@
 package com.simon.app;
 
+import com.simon.utils.IPop;
+import com.simon.utils.IPop.PosBtnCallBack;
 import com.simon.utils.IToast;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +65,12 @@ public class ActHome extends ActBase implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btnUp:
-			IToast.hint(this, R.string.btn_up);
+			new IPop().show(this, "设置", "这是内容...", "确定", "取消", new PosBtnCallBack() {
+				@Override
+				public void onPosDo(DialogInterface dialogInterface) {
+					IToast.hint(ActHome.this, R.string.btn_up);
+				}
+			});
 			break;
 		case R.id.btnDown:
 			IToast.hint(this, R.string.btn_down);

@@ -3,10 +3,10 @@ package com.simon.utils;
 import android.content.Context;
 import android.widget.Toast;
 
+//系统弹出框组件
 public class IToast {
 
 	private static Toast mToast;
-	
 
 	public static void hint(Context context, String text, int duration){
 		
