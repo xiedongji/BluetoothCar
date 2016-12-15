@@ -37,14 +37,21 @@ public final class R {
         public static final int btnUp=0x7f070002;
         public static final int btnX=0x7f07000b;
         public static final int btnY=0x7f07000c;
+        public static final int button_cancel=0x7f070014;
+        public static final int button_scan=0x7f070013;
         public static final int leftPanel=0x7f070000;
         public static final int llab=0x7f07000d;
         public static final int llxy=0x7f07000a;
         public static final int middlePanel=0x7f070006;
+        public static final int new_devices=0x7f070012;
+        public static final int paired_devices=0x7f070010;
         public static final int rightPanel=0x7f070009;
+        public static final int title_new_devices=0x7f070011;
     }
     public static final class layout {
         public static final int act_home=0x7f030000;
+        public static final int wg_device_item=0x7f030001;
+        public static final int wg_device_list=0x7f030002;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
